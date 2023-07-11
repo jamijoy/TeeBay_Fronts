@@ -23,7 +23,7 @@ export const Login = (props) => {
     const [errors, setErrors] = useState({})
     
     const handleInput = (event) => {
-        setValues(prev => ({...prev, [event.target.name]: [event.target.value]}))
+        setValues(prev => ({...prev, [event.target.name]: event.target.value}))
     }
 
     const handleSubmit = (event) => {
@@ -42,7 +42,7 @@ export const Login = (props) => {
                     return axios({
                                 method: 'post',
                                 url: "http://localhost:8080/login",
-                                data: { values },
+                                data: values,
                                 xsrfHeaderName: "csrftoken",
                                 responseType: 'json'
                               })

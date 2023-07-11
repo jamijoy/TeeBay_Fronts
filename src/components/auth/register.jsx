@@ -23,7 +23,7 @@ export const Register = (props) => {
     const [errors, setErrors] = useState({})
     
     const handleInput = (event) => {
-        setValues(prev => ({...prev, [event.target.name]: [event.target.value]}))
+        setValues(prev => ({...prev, [event.target.name]: event.target.value}))
     }
 
     const handleSubmit = (event) => {
@@ -38,26 +38,26 @@ export const Register = (props) => {
                      *  TODO: Axios will be shift under /action folder 
                      * 
                      */
-                    
+                     
                     return axios({
                                 method: 'post',
                                 url: "http://localhost:8080/register",
-                                data: { values },
+                                data: values,
                                 xsrfHeaderName: "csrftoken",
                                 responseType: 'json'
                               })
                                 .then((axiosResponse) => {
                                     
                                     const data = JSON.parse(axiosResponse.request.response);
-                                    let loginMessage = JSON.stringify(data.data.message);
+                                    let loginMessage = JSON.stringify(data);
                                     console.log('actionUser -::- '+ loginMessage);
 
-                                if(data.data.message === "success"){
-//                                    navigate('/home');
-                                    console.log('registered successful -::- '+ loginMessage);
-                                }else{
-                                    alert('wrong submission..');
-                                }
+//                                if(data.data.message === "success"){
+////                                    navigate('/home');
+//                                    console.log('registered successful -::- '+ loginMessage);
+//                                }else{
+//                                    alert('wrong submission..');
+//                                }
                                 })
                                 .catch((response) => {
                                   console.log(response.data);
