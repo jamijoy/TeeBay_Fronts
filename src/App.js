@@ -18,7 +18,7 @@ function App() {
         
         <Routes>
           <Route exact path="/" element={currentForm === "login" ? <Login onFormSwitch={toggleForm} /> : <Register onFormSwitch={toggleForm} />}/>
-          
+          <Route exact path="/login" element={<Register />}/>
         </Routes>
     </div>
   );

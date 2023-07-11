@@ -31,11 +31,13 @@ export const Login = (props) => {
         event.preventDefault();
         setErrors(Validation(values));
         
-        
-        console.log('......................' + errors.email);
         if(errors.email==="" && errors.password===""){
             
             
+                    /*
+                     *  TODO: Axios will be shift under /action folder 
+                     * 
+                     */
                     
                     return axios({
                                 method: 'post',
@@ -44,13 +46,18 @@ export const Login = (props) => {
                                 xsrfHeaderName: "csrftoken",
                                 responseType: 'json'
                               })
-                                .then((response) => {
-                                  console.log(response.data);
-        //                        if(response.data === "success"){
-        //                            navigate('/home');
-        //                        }else{
-        //                            alert('wrong credential');
-        //                        }
+                                .then((axiosResponse) => {
+                                    
+                                    const data = JSON.parse(axiosResponse.request.response);
+                                    let loginMessage = JSON.stringify(data.data.message);
+                                    console.log('actionUser -::- '+ loginMessage);
+
+                                if(data.data.message === "success"){
+//                                    navigate('/home');
+                                    console.log('logged in -::- '+ loginMessage);
+                                }else{
+                                    alert('wrong credential..');
+                                }
                                 })
                                 .catch((response) => {
                                   console.log(response.data);
