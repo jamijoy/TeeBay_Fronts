@@ -82,7 +82,7 @@ export const Register = (props) => {
             <br/>{errors.email && <small className="text-danger">{errors.email}</small>}
                 <input type="password" className="form-control rounded-0" onChange={handleInput} placeholder="****" id="password" name="password" />
             <br/>{errors.password && <small className="text-danger">{errors.password}</small>}
-                <button type="submit">Register</button>
+                <button className="btn btn-success" type="submit">Register</button>
             </form>
             <button
                 className="App-link"

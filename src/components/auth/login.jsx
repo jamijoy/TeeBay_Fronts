@@ -73,7 +73,7 @@ export const Login = (props) => {
 
             <img src={logo} className="App-logo" alt="logo" />
             <h2>
-              TeeBay
+              TeeBay 
             </h2>
             <form action="" onSubmit={handleSubmit}>
             <div className="mb-3">
