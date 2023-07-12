@@ -5,6 +5,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Validation from "./RegisterValidation";
 import axios from "axios";
+import Cookies from "universal-cookie";
+import jwt from "jwt-decode";
 
 
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
@@ -13,6 +15,9 @@ axios.defaults.xsrfCookieName = "csrftoken";
 export const Register = (props) => {
     
     const navigate = useNavigate();
+    const cookies = new Cookies();
+    
+    const [token, setToken] = useState(null);
     
     const [values, setValues] = useState({
         name : '',
@@ -40,28 +45,37 @@ export const Register = (props) => {
                      */
                      
                     return axios({
-                                method: 'post',
-                                url: "http://localhost:8080/register",
-                                data: values,
-                                xsrfHeaderName: "csrftoken",
-                                responseType: 'json'
-                              })
-                                .then((axiosResponse) => {
-                                    
-                                    const data = JSON.parse(axiosResponse.request.response);
-                                    let loginMessage = JSON.stringify(data);
-                                    console.log('actionUser -::- '+ loginMessage);
+                        method: 'post',
+                        url: "http://localhost:8080/register",
+                        data: values,
+                        xsrfHeaderName: "csrftoken",
+                        responseType: 'json'
+                      })
+                        .then((axiosResponse) => {
 
-//                                if(data.data.message === "success"){
-////                                    navigate('/home');
-//                                    console.log('registered successful -::- '+ loginMessage);
-//                                }else{
-//                                    alert('wrong submission..');
-//                                }
-                                })
-                                .catch((response) => {
-                                  console.log(response.data);
+                            const data = JSON.parse(axiosResponse.request.response);
+//                          let loginMessage = JSON.stringify(data.message);
+//                          console.log('registeredUser -::- ');
+
+                            if(data.message === "success"){
+                                console.log('registered in -::- '+ data.access_token);
+
+                                const splited_token = data.access_token.split("|");
+        //                      const decoded_token = jwt(splited_token[1]);
+                                setToken(splited_token[1]);
+                                cookies.set("jwt_authorization", splited_token[1], {
+                                    expires: new Date(splited_token[1].exp * 1000)
                                 });
+                                navigate('/products');
+
+                            }else{
+                                alert('wrong credential..');
+                            }
+                        })
+                        .catch((response) => {
+                            console.log(response.message);
+                            alert('Wrong Credential.. '+ response.message);
+                        });
 
         }
     }

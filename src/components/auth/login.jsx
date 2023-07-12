@@ -6,7 +6,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Validation from "./LoginValidation";
 import axios from "axios";
-
+import Cookies from "universal-cookie";
+import jwt from "jwt-decode";
 
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 axios.defaults.xsrfCookieName = "csrftoken";
@@ -14,7 +15,9 @@ axios.defaults.xsrfCookieName = "csrftoken";
 export const Login = (props) => {
 
     const navigate = useNavigate();
+    const cookies = new Cookies();
     
+    const [token, setToken] = useState(null);
     const [values, setValues] = useState({
         email : '',
         password : ''
@@ -47,20 +50,30 @@ export const Login = (props) => {
                 responseType: 'json'
               })
                 .then((axiosResponse) => {
-
+                    
                     const data = JSON.parse(axiosResponse.request.response);
-                    let loginMessage = JSON.stringify(data.data.message);
-                    console.log('actionUser -::- '+ loginMessage);
+//                    let loginMessage = JSON.stringify(data.message);
+//                    console.log('actionUser -::- ');
 
-                    if(data.data.message === "success"){
-    //                                    navigate('/home');
-                        console.log('logged in -::- '+ loginMessage);
+                    if(data.message === "success"){
+                        console.log('logged in -::- '+ data.user_details.name);
+                        console.log('logged in -::- '+ data.user_details.email);
+                        
+                        const splited_token = data.access_token.split("|");
+//                      const decoded_token = jwt(splited_token[1]);
+                        setToken(splited_token[1]);
+                        cookies.set("jwt_authorization", splited_token[1], {
+                            expires: new Date(splited_token[1].exp * 1000)
+                        });
+                        navigate('/products');
+                        
                     }else{
                         alert('wrong credential..');
                     }
                 })
                 .catch((response) => {
-                  console.log(response.data);
+                  console.log(response.message);
+                  alert('Wrong Credential.. '+ response.message);
                });
 
         }
