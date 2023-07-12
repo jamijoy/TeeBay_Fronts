@@ -34,34 +34,34 @@ export const Login = (props) => {
         if(errors.email==="" && errors.password===""){
             
             
-                    /*
-                     *  TODO: Axios will be shift under /action folder 
-                     * 
-                     */
-                    
-                    return axios({
-                                method: 'post',
-                                url: "http://localhost:8080/login",
-                                data: values,
-                                xsrfHeaderName: "csrftoken",
-                                responseType: 'json'
-                              })
-                                .then((axiosResponse) => {
-                                    
-                                    const data = JSON.parse(axiosResponse.request.response);
-                                    let loginMessage = JSON.stringify(data.data.message);
-                                    console.log('actionUser -::- '+ loginMessage);
+            /*
+             *  TODO: Axios will be shift under /action folder 
+             * 
+             */
 
-                                if(data.data.message === "success"){
-//                                    navigate('/home');
-                                    console.log('logged in -::- '+ loginMessage);
-                                }else{
-                                    alert('wrong credential..');
-                                }
-                                })
-                                .catch((response) => {
-                                  console.log(response.data);
-                                });
+            return axios({
+                method: 'post',
+                url: "http://localhost:8080/login",
+                data: values,
+                xsrfHeaderName: "csrftoken",
+                responseType: 'json'
+              })
+                .then((axiosResponse) => {
+
+                    const data = JSON.parse(axiosResponse.request.response);
+                    let loginMessage = JSON.stringify(data.data.message);
+                    console.log('actionUser -::- '+ loginMessage);
+
+                    if(data.data.message === "success"){
+    //                                    navigate('/home');
+                        console.log('logged in -::- '+ loginMessage);
+                    }else{
+                        alert('wrong credential..');
+                    }
+                })
+                .catch((response) => {
+                  console.log(response.data);
+               });
 
         }
     }
