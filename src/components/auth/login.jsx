@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import Validation from "./LoginValidation";
 import axios from "axios";
 import Cookies from "universal-cookie";
+import { isExpired, decodeToken } from "react-jwt";
 import jwt from "jwt-decode";
 
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
@@ -52,23 +53,29 @@ export const Login = (props) => {
                 .then((axiosResponse) => {
                     
                     const data = JSON.parse(axiosResponse.request.response);
-//                    let loginMessage = JSON.stringify(data.message);
-//                    console.log('actionUser -::- ');
 
                     if(data.message === "success"){
+                        
+                        // Printing user details
                         console.log('logged in -::- '+ data.user_details.name);
                         console.log('logged in -::- '+ data.user_details.email);
                         
+                        // specify token from laravel given access token
                         const splited_token = data.access_token.split("|");
-//                      const decoded_token = jwt(splited_token[1]);
-                        setToken(splited_token[1]);
-                        cookies.set("jwt_authorization", splited_token[1], {
-                            expires: new Date(splited_token[1].exp * 1000)
-                        });
+                        const decoded_token = decodeToken(splited_token[1]);
+                        const isMyTokenExpired = isExpired(splited_token[1]);
+                        
+                        // token and cookie storing
+                        setToken(splited_token[1]);                        
+                        localStorage.setItem("token", splited_token[1]);
+                        cookies.set("token", splited_token[1], { maxAge: 86400 });
+                        
+                        // set root URL to login if user logout in future and moving the user to products page
+                        props.onFormSwitch('login');
                         navigate('/products');
                         
                     }else{
-                        alert('wrong credential..');
+                        alert('wrong credential.. ');
                     }
                 })
                 .catch((response) => {

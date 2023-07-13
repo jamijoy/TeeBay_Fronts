@@ -17,6 +17,12 @@ const countPerPage = 10;
 const navigate = useNavigate();
 const cookies = new Cookies();
 const [token, setToken] = useState(null);
+
+if (!cookies.get("token")) {
+    navigate('/');
+}else{
+    console.log('Cookie >> Token >>  '+ cookies.get("token"));
+}
  
 function logoutUser(){                  
     /*
@@ -24,9 +30,9 @@ function logoutUser(){
      * 
      */
     setToken(null);
-    cookies.remove("jwt_authorization");
-    navigate('/login');
-  }
+    cookies.remove("token");
+    navigate('/');
+}
                     
   function buyProduct(id){                  
     /*
@@ -42,6 +48,8 @@ function logoutUser(){
 
                     if(data.message === "success"){
                         alert('Buy Successful..');
+                        const localToken = localStorage.getItem("token");
+                        console.log(localToken);
                         getProductList();
                     }else{
                         alert('Buy Declined..');
@@ -90,7 +98,10 @@ const columns = [
   }
  
   useEffect(() => {
+      
     getProductList();
+    
+    
   }, [page]);
  
   return (
