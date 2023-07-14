@@ -34,25 +34,33 @@ function logoutUser(){
     navigate('/');
 }
                     
-  function buyProduct(id){                  
+  function actionOnProduct(id,action){                  
     /*
      *  TODO: Axios will be shift under /action folder 
      * 
      */
-    axios.get(`http://localhost:8080/buyProduct/`+id)
+    axios.get(`http://localhost:8080/buyProduct/`+action+`/`+id)
             .then(axiosResponse => {
-                    console.log('Product Buy -::-  Area');
+                    console.log('Product Action -::-  Area');
                     const data = JSON.parse(axiosResponse.request.response);
                     let responseMessage = JSON.stringify(data.message);
                     console.log('Product Buy -::- '+ responseMessage);
 
                     if(data.message === "success"){
-                        alert('Buy Successful..');
+                        
+                        if(action==='buy'){
+                            alert('Buy Successful..');
+                        }else if(action==='add'){
+                            alert('Addition Successful..');
+                        }else if(action==='borrow'){
+                            alert('Borrow action Successful..');
+                        }                        
                         const localToken = localStorage.getItem("token");
                         console.log(localToken);
                         getProductList();
+                        
                     }else{
-                        alert('Buy Declined..');
+                        alert('Action Declined..');
                     }
         }).catch(err => {
             setProducts({});
@@ -76,8 +84,15 @@ const columns = [
     sortable: false
   },
   {
+    name: 'Borrowed',
+    selector: 'borrowed',
+    sortable: false
+  },
+  {
     name: 'User Services',
-    cell: row => <button className="btn btn-info" onClick={(e) => buyProduct(row.id)}>Buy Product</button>,
+    cell: row =>    <>        <button className="btn btn-warning" onClick={(e) => actionOnProduct(row.id,'buy')}> Buy </button>
+            &nbsp;&nbsp;    <button className="btn btn-info" onClick={(e) => actionOnProduct(row.id,'add')}> Add </button>
+            &nbsp;&nbsp;    <button className="btn btn-danger" onClick={(e) => actionOnProduct(row.id,'borrow')}> Borrow </button></>,
   }
 ];
  
