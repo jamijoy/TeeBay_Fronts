@@ -4,9 +4,9 @@ import '../../teebay.css';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import DataTable from 'react-data-table-component';
+import Link from '@mui/material/Link';
 import axios from 'axios';
 import Cookies from "universal-cookie";
-import jwt from "jwt-decode";
     
 export const Products = () => {
    
@@ -122,7 +122,8 @@ const columns = [
   return (
     <div className="App">
       <h3>TeeBay : List of products</h3>
-      <button className="btn btn-danger" onClick={(e) => logoutUser()} >Log Out</button>
+      <button className="btn btn-danger" onClick={(e) => logoutUser()} >Log Out</button> <br/>
+      <Link color="primary" className="btn btn-info"  href="/add-product"> Add New Product </Link>
       <DataTable
         title="Products"
         columns={columns}
