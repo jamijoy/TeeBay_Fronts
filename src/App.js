@@ -7,6 +7,7 @@ import { Register } from "./components/auth/register";
 import { Products } from "./components/products/products";
 import { AddProductForm } from "./components/products/add_product";
 import { NotFound } from "./components/common/not_found";
+import { MantineProvider } from '@mantine/core';
 
 function App() {
     
@@ -17,7 +18,7 @@ function App() {
     }
     
   return (
-    <div className="App">
+    <MantineProvider withGlobalStyles withNormalizeCSS>
         
         <Routes>
           <Route exact path="/" element={currentForm === "login" ? <Login onFormSwitch={toggleForm} /> : <Register onFormSwitch={toggleForm} />}/>
@@ -27,7 +28,7 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
         
-    </div>
+    </MantineProvider>
   );
 }
 

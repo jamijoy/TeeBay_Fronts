@@ -7,6 +7,8 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@headlessui/react": "^1.7.15",
+    "@mantine/core": "^6.0.16",
+    "@mantine/hooks": "^6.0.16",
     "@mui/icons-material": "^5.14.0",
     "@mui/material": "^5.14.0",
     "@testing-library/jest-dom": "^5.16.5",

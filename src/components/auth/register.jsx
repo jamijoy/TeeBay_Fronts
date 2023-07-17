@@ -9,11 +9,65 @@ import Cookies from "universal-cookie";
 import { isExpired, decodeToken } from "react-jwt";
 import jwt from "jwt-decode";
 
+import { createStyles, Header, Container, Title, Text, Group, Burger, Button, rem, Paper, PaperProps, Stack, TextInput, PasswordInput, Grid } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 axios.defaults.xsrfCookieName = "csrftoken";
 
+
+/*
+ *  TODO: Style propertises will be moved to new file
+ * 
+ */
+
+const useStyles = createStyles((theme) => ({
+  header: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    height: '100%',
+  },
+
+  links: {
+    [theme.fn.smallerThan('xs')]: {
+      display: 'none',
+    },
+  },
+
+  burger: {
+    [theme.fn.largerThan('xs')]: {
+      display: 'none',
+    },
+  },
+
+  link: {
+    display: 'block',
+    lineHeight: 1,
+    padding: `${rem(8)} ${rem(12)}`,
+    borderRadius: theme.radius.sm,
+    textDecoration: 'none',
+    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[7],
+    fontSize: theme.fontSizes.sm,
+    fontWeight: 500,
+
+    '&:hover': {
+      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+    },
+  },
+
+  linkActive: {
+    '&, &:hover': {
+      backgroundColor: theme.fn.variant({ variant: 'light', color: theme.primaryColor }).background,
+      color: theme.fn.variant({ variant: 'light', color: theme.primaryColor }).color,
+    },
+  },
+}));
+
 export const Register = (props) => {
+    
+    const [opened, { toggle }] = useDisclosure(false);
+    const { classes, cx } = useStyles();
     
     const navigate = useNavigate();
     const cookies = new Cookies();
@@ -89,30 +143,72 @@ export const Register = (props) => {
     
     return (
        
-        
-         <header className="App-header">
+          <>
+            <Header height={60} mb={120}>
+            <Container className={classes.header}>
+              <h1 className={classes.title}>
+                {' '}
+                <Text component="span" variant="gradient" gradient={{ from: 'blue', to: 'cyan' }} inherit>
+                  TeeBay
+                </Text>{' '}
+                an experimental project
+              </h1>
+              <Group spacing={5} className={classes.links}>
+                
+              </Group>
 
-            <h2>
-              TeeBay Registration
-            </h2>
-            <form action="" onSubmit={handleSubmit}>
-            <br/>
-                <input type="text" className="form-control rounded-0" onChange={handleInput} placeholder="Enter a name" id="name" name="name" />
-            <br/>{errors.name && <small className="text-danger">{errors.name}</small>}
-                <input type="email" className="form-control rounded-0" onChange={handleInput} placeholder="example@example.com" id="email" name="email" />
-            <br/>{errors.email && <small className="text-danger">{errors.email}</small>}
-                <input type="password" className="form-control rounded-0" onChange={handleInput} placeholder="****" id="password" name="password" />
-            <br/>{errors.password && <small className="text-danger">{errors.password}</small>}
-                <button className="btn btn-success" type="submit">Register</button>
-            </form>
-            <button
-                className="App-link"
-                onClick={() => props.onFormSwitch('login')}
-                rel="noopener noreferrer"
-              >
-                 Already Registration ?
-              </button>
-            </header>
+              <Burger opened={opened} onClick={toggle} className={classes.burger} size="sm" />
+            </Container>
+          </Header>
+          <Grid>
+             <Grid.Col xs={4} align="center"></Grid.Col>
+             <Grid.Col xs={4}>
+                <Paper radius="md" p="xl" padd withBorder {...props}>
+                       <form action="" onSubmit={handleSubmit}>
+                         <Stack>
+                           <TextInput
+                             
+                             label="Your Name"
+                             placeholder="Enter a name"
+                             id="name" 
+                             name="name"
+                             onChange={handleInput}
+                             error={errors.name && <small className="text-danger">{errors.name}</small>}
+                             radius="md"
+                           />
+                           <TextInput
+                             
+                             label="Email"
+                             placeholder="jamijoyy@gmail.com"
+                             id="email" 
+                             name="email"
+                             onChange={handleInput}
+                             error={errors.email && <small className="text-danger">{errors.email}</small>}
+                             radius="md"
+                           />
+                           <PasswordInput
+                             
+                             label="Password"
+                             placeholder="Your password"
+                             radius="md"
+                             id="password" 
+                             name="password"
+                             onChange={handleInput}
+                             error={errors.password && <small className="text-danger">{errors.password}</small>}
+                           />
+                         </Stack>
+                        
+                         <Group position="apart" mt="xl">
+                            <button className="btn btn-info" type="submit">Register</button>
+                            <button onClick={() => props.onFormSwitch('login')} rel="noopener noreferrer"> Already Registered ? Sign in.</button>
+                         </Group>
+                       </form>
+                     </Paper>
+               </Grid.Col>
+             <Grid.Col xs={4}></Grid.Col>
+            </Grid>
+       
+          </>
       
     )
 }
