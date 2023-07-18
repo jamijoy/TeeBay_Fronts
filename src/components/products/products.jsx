@@ -123,7 +123,6 @@ const columns = [
     <div className="App">
       <h3>TeeBay : List of products</h3>
       <button className="btn btn-danger" onClick={(e) => logoutUser()} >Log Out</button> <br/>
-      <Link color="primary" className="btn btn-info"  href="/add-product"> Add New Product </Link>
       <DataTable
         title="Products"
         columns={columns}

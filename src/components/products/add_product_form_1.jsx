@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Dialog from '@mui/material/Dialog';
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import AppBar from '@mui/material/AppBar';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -12,8 +12,28 @@ export class GeneralDetails extends Component {
 
   render() {
     const { values, handleChange } = this.props;
+    
+    const theme = createTheme({
+        palette: {
+        },
+        typography: {
+            fontFamily: [
+                "NotoSans",
+                "NotoSansThai",
+                "Arial",
+                "Roboto",
+                "'Helvetica Neue'",
+                "sans-serif",
+            ].join(","),
+        },
+        shape: {
+            borderRadius: 15,
+        },
+    });
+
     return (
         <>
+        <ThemeProvider theme={theme}>
             <AppBar title="Enter Product General Details" />
             <TextField
               placeholder="Enter Product Name"
@@ -32,10 +52,10 @@ export class GeneralDetails extends Component {
             />
             <br />
             <Button
-              color="primary"
               variant="contained"
               onClick={this.continue}
             >Continue</Button>
+            </ThemeProvider>
         </>
     );
   }

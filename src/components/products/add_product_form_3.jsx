@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Dialog from '@mui/material/Dialog';
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import AppBar from '@mui/material/AppBar';
 import { List, ListItem, ListItemText } from '@mui/material';
 import Button from '@mui/material/Button';
@@ -20,6 +20,25 @@ export class ConfirmDetails extends Component {
   };
 
   render() {
+
+    const theme = createTheme({
+        palette: {
+        },
+        typography: {
+            fontFamily: [
+                "NotoSans",
+                "NotoSansThai",
+                "Arial",
+                "Roboto",
+                "'Helvetica Neue'",
+                "sans-serif",
+            ].join(","),
+        },
+        shape: {
+            borderRadius: 15,
+        },
+    });
+    
     const {
       values: { name, category, quantity, borrowed }
     } = this.props;
@@ -62,6 +81,7 @@ export class ConfirmDetails extends Component {
     
     return (
         <>
+        <ThemeProvider theme={theme}>
             <AppBar title="Confirm Product Information" />
             <List>
               <ListItem>
@@ -86,10 +106,10 @@ export class ConfirmDetails extends Component {
             >Back</Button>
 
             <Button
-              color="primary"
               variant="contained"
               onClick={handleSubmit}
             >Confirm & Continue</Button>
+        </ThemeProvider>
         </>
     );
   }

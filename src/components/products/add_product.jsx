@@ -48,6 +48,7 @@ export class AddProductForm extends Component {
             values={values}
           />
         );
+
       case 2:
         return (
           <QuantityDetails
@@ -67,6 +68,7 @@ export class AddProductForm extends Component {
         );
       case 4:
         return <Success />;
+        
       default:
         (console.log('Prouct addition form unexpected state ..............................'))
     }
