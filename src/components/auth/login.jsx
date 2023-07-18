@@ -10,7 +10,7 @@ import Cookies from "universal-cookie";
 import { isExpired, decodeToken } from "react-jwt";
 import jwt from "jwt-decode";
 
-import { createStyles, Header, Container, Title, Text, Group, Burger, Button, rem, Paper, PaperProps, Stack, TextInput, PasswordInput, Grid } from '@mantine/core';
+import { createStyles, Header, Container, Title, Text, Group, Burger, Button, rem, Paper, PaperProps, Stack, TextInput, PasswordInput, Grid, NavLink } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";

@@ -51,6 +51,14 @@ export class GeneralDetails extends Component {
               margin="normal"
             />
             <br />
+            
+            
+            <Button
+              color="secondary"
+              variant="contained"
+              component="a"
+              href="/products"
+            >Back</Button>
             <Button
               variant="contained"
               onClick={this.continue}
